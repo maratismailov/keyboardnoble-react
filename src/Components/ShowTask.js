@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 // import '../Ap.css';
 // import '../Hidden.css';
 // import Dictionary from './Dictionary';
 
 
-class ShowTask extends Component {
-  render () {
-    return (
-        <div>
-          {this.props.task}
-      </div>
-    )
-  }
+const showTask = (props) => {
+  return (
+    <div>
+      {props.task}
+    </div>
+  )
 }
 
-export default ShowTask;
+export default showTask;

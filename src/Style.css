@@ -5,23 +5,23 @@
   /* font-size: 1cm; */
   /* margin: 15%; */
   margin-left: 15.5%;
-  margin-right: 15.5%;
+  /* margin-right: 15.5%; */
   width: 69%;
+  /* margin: 0 auto; */
   margin-top: 1cm;
 }
-
+/* 
 .Table{
   display: table;
   margin-left: 15.5%;
   margin-top: 0.8%;
-  /* width: 69%; */
   border-spacing: 15px 0;
 }
 
 .Table-row {
-  /* width: 12%; */
+ 
   display: table-row;
-}
+} */
 
 .Menu {
   margin-top: 0.8%;
