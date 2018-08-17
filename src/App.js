@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import './App.css';
 // import './Hidden.css';
-import Boyarin from './Components/Boyarin';
+import Boyarin from './containers/Boyarin';
 
 class App extends Component {
 
