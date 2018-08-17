@@ -91,6 +91,7 @@ class Boyarin extends Component {
           </DictSelectMenu>
         </div>
         <TextInput
+        // className='App'
           isError={this.props.isError}
           changed={(event) => {
             this.textCheckHandler(event)

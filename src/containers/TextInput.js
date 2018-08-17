@@ -13,8 +13,7 @@ class TextInput extends Component {
 
         return (
             <div>
-                <input
-                    type="text"
+                <textarea
                     onChange={this.props.changed}
                     value={this.props.value}
                     className={isError}
