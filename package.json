@@ -1,7 +1,7 @@
 {
   "name": "react-complete-guide",
   "version": "0.1.0",
-  "homepage": "https://regfe89.github.io/keyboardnoble",
+  "homepage": "https://keyboardnoble.netlify.com",
   "private": false,
   "dependencies": {
     "axios": "^0.18.0",
