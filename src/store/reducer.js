@@ -10,7 +10,9 @@ const initialState = {
     preTask: 'Pretask test text7',
     task: null,
     textLoaded: false,
-    preReadyDict: 'preReadyDict'
+    preReadyDict: 'preReadyDict',
+    correctValue: '',
+    currentValue: ''
 
     // menuIsOpen: true
 }
@@ -43,7 +45,19 @@ const reducer = (state = initialState, action) => {
         case 'ENTER_VALUE':
             return {
                 ...state,
-                inputValue: action.enteredValue
+                inputValue: action.inputValue,
+            }
+
+        case 'CORRECT_VALUE':
+            return {
+                ...state,
+                correctValue: action.inputValue
+            }
+
+        case 'CLEAR_CORRECT_VALUE':
+            return {
+                ...state,
+                correctValue: ''
             }
 
         case 'IS_ERROR':

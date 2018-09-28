@@ -57,7 +57,7 @@ class Boyarin extends Component {
 
   textCheckHandler = event => {
     let enteredValue = event.target.value;
-    this.props.enteredValue();
+    this.props.enteredValue(enteredValue);
     console.log(this.props.isError);
     const dictionary = this.props.dictionary;
     const dictLength = dictionary.length;
@@ -69,16 +69,32 @@ class Boyarin extends Component {
     } else if (dictLength < enteredLength && !enteredValue.includes(dictionary)) {
       this.props.error();
     } else {
+      this.props.loadCorrectValue(enteredValue)
       this.props.noError();
       if (dictLength < enteredLength) {
         this.grabDictionary('newtext');
         enteredValue = '';
         this.props.newTask();
+        this.props.clearCorrectValue();
       }
+      // if (en)
     }
   }
 
+
+
   render() {
+
+    let isError = 'App';
+    if (this.props.isError == null) {
+      isError = 'App'
+    } else {
+      isError = 'Error'
+    }
+    const goodValue = this.props.inputValue.substring(0, this.props.correctValue.length)
+    const badValue = this.props.inputValue.substring(this.props.correctValue.length)
+    const fullValue = this.props.dictionary.substring(this.props.correctValue.length+badValue.length, this.props.dictionary.length)
+    // span.innerHTML = value.substring(0, 3) + '<span class="red">' + value.substring(2) + '</span>'
 
     return (
       <div>
@@ -90,19 +106,36 @@ class Boyarin extends Component {
           >
           </DictSelectMenu>
         </div>
-        <TextInput
-        // className='App'
+        <div className='App'>
+          <span className='GoodValue'>{goodValue}</span>
+          <span className='BadValue'>{badValue}</span>
+          <span className='FullValue'>{fullValue}</span>
+        </div>
+        {/* <div className='App'>
+          <ShowTask task={this.props.dictionary} />
+        </div> */}
+        {/* <div className='App2'>
+          {this.props.inputValue}
+        </div> */}
+        <div>
+          <textarea
+            onChange={(event) => {
+              this.textCheckHandler(event)
+            }}
+            value={this.props.inputValue}
+            className={isError}
+          // {...this.props}
+          />
+        </div>
+        {/* <TextInput
+          // className='App'
           isError={this.props.isError}
           changed={(event) => {
             this.textCheckHandler(event)
           }}
           value={this.props.inputValue}
         // ref={elem => this.textFocus = elem}
-        />
-        <div className='App'>
-          <ShowTask task={this.props.dictionary} />
-        </div>
-
+        /> */}
         <div className="App" >
           <div>
             {this.props.error}
@@ -123,7 +156,8 @@ const MapStateToProps = state => {
     file: state.file,
     preTask: state.preTask,
     menuIsOpen: state.menuIsOpen,
-    textLoaded: state.textLoaded
+    textLoaded: state.textLoaded,
+    correctValue: state.correctValue
   };
 };
 
@@ -132,10 +166,12 @@ const MapDispatchToProps = dispatch => {
     handleSelectStore: selectedOption => dispatch({ type: 'HANDLE_SELECT', selectedOption: selectedOption }),
     loadTextStore: allText => dispatch({ type: 'LOAD_TEXT', allText: allText }),
     grabDictionary: preReadyDict => dispatch({ type: 'GRAB_DICT', preReadyDict: preReadyDict }),
-    enteredValue: enteredValue => dispatch({ type: 'ENTER_VALUE', toCheck: enteredValue, inputValue: enteredValue }),
+    enteredValue: enteredValue => dispatch({ type: 'ENTER_VALUE', inputValue: enteredValue }),
     error: () => dispatch({ type: 'IS_ERROR' }),
     noError: () => dispatch({ type: 'NO_ERROR' }),
-    newTask: () => dispatch({ type: 'NEW_TASK' })
+    newTask: () => dispatch({ type: 'NEW_TASK' }),
+    loadCorrectValue: enteredValue => dispatch({ type: 'CORRECT_VALUE', inputValue: enteredValue }),
+    clearCorrectValue: () => dispatch({ type: 'CLEAR_CORRECT_VALUE' }),
   };
 };
 

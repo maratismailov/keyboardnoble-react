@@ -1,3 +1,26 @@
+.Main {
+  display: grid;
+  /* grid-template-columns: 0px 0px; */
+  text-align: left;
+  background: #252c35;
+  color: #98c359;
+  /* font-size: 1cm; */
+  /* margin: 15%; */
+  margin-left: 15.5%;
+  /* margin-right: 15.5%; */
+  width: 69%;
+  /* margin: 0 auto; */
+  margin-top: 100px;
+  z-index: 0;
+}
+.Main > div:nth-child(1) {
+  grid-column: 1/1
+}
+.Main > div:nth-child(2) {
+  grid-column: 1/1
+}
+
+
 .App {
   text-align: left;
   background: #252c35;
@@ -8,7 +31,50 @@
   /* margin-right: 15.5%; */
   width: 69%;
   /* margin: 0 auto; */
-  margin-top: 1cm;
+  margin-top: 80px;
+  margin-bottom: 0px;
+}
+
+.FullValue {
+  text-align: left;
+  background: #252c35;
+  color: #84887f;
+  /* font-size: 1cm; */
+  /* margin: 15%; */
+  /* margin-left: 15.5%; */
+  /* margin-right: 15.5%; */
+  /* width: 69%; */
+  /* margin: 0 auto; */
+  margin-top: 80px;
+  margin-bottom: 0px;
+}
+
+.GoodValue {
+  text-align: left;
+  background: #252c35;
+  color: #98c359;
+  /* font-size: 1cm; */
+  /* margin: 15%; */
+  /* margin-left: 15.5%; */
+  /* margin-right: 15.5%; */
+  /* width: 69%; */
+  /* margin: 0 auto; */
+  margin-top: 80px;
+  margin-bottom: 0px;
+}
+
+.BadValue {
+  text-align: left;
+  background: #252c35;
+  color: #cf2961;
+  /* font-size: 1cm; */
+  /* margin: 15%; */
+  /* margin-left: 15.5%; */
+  /* margin-right: 15.5%; */
+  /* width: 69%; */
+  /* margin: 0 auto; */
+  margin-top: -57.5px;
+  margin-bottom: 25px;
 }
 /* 
 .Table{
@@ -24,7 +90,7 @@
 } */
 
 .Menu {
-  margin-top: 0.8%;
+  margin-top: 10px;
   margin-left: 15.5%;
   /* width: 12%; */
   
@@ -92,7 +158,8 @@
   /* font-size: 1cm; */
   /* margin: 15%; */
   margin-left: 15.5%;
-  margin-right: 15.5%;
+  /* margin-right: 15.5%; */
   width: 69%;
-  margin-top: 1cm;
+  margin-top: 80px;
+  margin-bottom: 0px;
 }
