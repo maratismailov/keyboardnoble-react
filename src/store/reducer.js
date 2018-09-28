@@ -43,9 +43,18 @@ const reducer = (state = initialState, action) => {
             }
 
         case 'ENTER_VALUE':
+            const preCurrentValue = action.inputValue;
+            // const reverseString = str => {
+            //     return str.split("").reverse().join("");
+            // }
+            const reReversedString = preCurrentValue.split(" ").reverse()[0]
+            // const reReversedString = reversedArray[0]
+            // console.log(reReversedArray)
+
             return {
                 ...state,
                 inputValue: action.inputValue,
+                currentValue: reReversedString
             }
 
         case 'CORRECT_VALUE':
@@ -58,6 +67,12 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 correctValue: ''
+            }
+
+            case 'REFRESH_TASK':
+            return {
+                ...state,
+                currentValue: ''
             }
 
         case 'IS_ERROR':
