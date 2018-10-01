@@ -12,7 +12,10 @@ const initialState = {
     textLoaded: false,
     preReadyDict: 'preReadyDict',
     correctValue: '',
-    currentValue: ''
+    currentValue: '',
+    input2Value: '',
+    correct2Value: '',
+    input3Value: ''
 
     // menuIsOpen: true
 }
@@ -43,11 +46,33 @@ const reducer = (state = initialState, action) => {
             }
 
         case 'ENTER_VALUE':
+            state.input2Value = state.input3Value + action.inputValue
             const preCurrentValue = action.inputValue;
+            // if (state.currentValue.length === 0) {
+            //     // state.input2Value = action.inputValue;
+            //     console.log('empty')
+            // }
             // const reverseString = str => {
             //     return str.split("").reverse().join("");
             // }
-            const reReversedString = preCurrentValue.split(" ").reverse()[0]
+            if (state.error === null) {
+                if (action.inputValue.includes(' ')) {
+                    // state.input2Value = state.input2Value.concat(action.inputValue)
+                    state.input3Value = action.inputValue
+                }
+                else {
+                    // state.input2Value = state.correctValue.substring(0) action.inputValue
+                    // const goodValue = this.props.inputValue.substring(
+                    //     0,
+                    //     this.props.correctValue.length
+                    // );
+                }
+                var reReversedString = preCurrentValue.split(" ").reverse()[0];
+
+            }
+            else {
+                var reReversedString = state.correctValue.split(' ').reverse()[0] + preCurrentValue.replace(state.correctValue, '')
+            }
             // const reReversedString = reversedArray[0]
             // console.log(reReversedArray)
 
@@ -69,7 +94,7 @@ const reducer = (state = initialState, action) => {
                 correctValue: ''
             }
 
-            case 'REFRESH_TASK':
+        case 'REFRESH_TASK':
             return {
                 ...state,
                 currentValue: ''
@@ -78,7 +103,8 @@ const reducer = (state = initialState, action) => {
         case 'IS_ERROR':
             return {
                 ...state,
-                error: 'error'
+                error: 'error',
+                currentValue: state.correctValue.split(' ').reverse()[0] + state.inputValue.replace(state.correctValue, '')
             }
 
         case 'NO_ERROR':
