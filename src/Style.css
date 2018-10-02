@@ -27,9 +27,37 @@
   color: #98c359;
   /* font-size: 1cm; */
   /* margin: 15%; */
-  margin-left: 15.5%;
+  margin-left: 25%;
   /* margin-right: 15.5%; */
-  width: 69%;
+  width: 53%;
+  /* margin: 0 auto; */
+  margin-top: 80px;
+  margin-bottom: 0px;
+}
+
+.Input {
+  text-align: left;
+  background: #252c35;
+  color: #98c359;
+  font-size: 25px;
+  /* margin: 15%; */
+  margin-left: 25%;
+  /* margin-right: 15.5%; */
+  width: 53%;
+  /* margin: 0 auto; */
+  margin-top: 80px;
+  margin-bottom: 0px;
+}
+
+.Error {
+  text-align: left;
+  background: #d4d22e;
+  color: #000000;
+  font-size: 25px;
+  /* margin: 15%; */
+  margin-left: 25%;
+  /* margin-right: 15.5%; */
+  width: 53%;
   /* margin: 0 auto; */
   margin-top: 80px;
   margin-bottom: 0px;
@@ -65,8 +93,8 @@
 
 .BadValue {
   text-align: left;
-  background: #252c35;
-  color: #cf2961;
+  background: #cf2961;
+  color: #000000;
   /* font-size: 1cm; */
   /* margin: 15%; */
   /* margin-left: 15.5%; */
@@ -91,7 +119,7 @@
 
 .Menu {
   margin-top: 10px;
-  margin-left: 15.5%;
+  margin-left: 25%;
   /* width: 12%; */
   
 }
@@ -150,16 +178,3 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-
-.Error {
-  text-align: left;
-  background: #d4d22e;
-  color: #0f0f0e;
-  /* font-size: 1cm; */
-  /* margin: 15%; */
-  margin-left: 15.5%;
-  /* margin-right: 15.5%; */
-  width: 69%;
-  margin-top: 80px;
-  margin-bottom: 0px;
-}

@@ -13,7 +13,7 @@ var toCheckValue = '';
 class Boyarin extends Component {
   constructor(props) {
     super(props)
-    this.state = { currentValue: '', toCheckValue: '' , index: 0 }
+    this.state = { currentValue: '', correctValue: '', correctValue2: '', index: 0, inputValue: '', inputValue2: '' }
   }
   componentDidMount() {
     this.loadText(this.props.file);
@@ -48,7 +48,7 @@ class Boyarin extends Component {
     const preTask = this.props.preTask;
     const dictLength = preTask.split("\n").length;
     const firstRandomElement = Math.floor(Math.random() * (dictLength - 2)) + 1;
-    const taskLength = 17;
+    const taskLength = 18;
     const newDict = preTask.split(/\r?\n/g);
     var preReadyDict = newDict[firstRandomElement] + " ";
     for (let i = 1; i < taskLength; i++) {
@@ -72,61 +72,111 @@ class Boyarin extends Component {
   //   return toCheckValue;
   // }
 
+  stateIndexUpdader = (toCheckValue, inputValue) => {
+    this.setState({ index: this.state.index + 1, correctValue2: this.state.correctValue2 + toCheckValue, inputValue2: this.state.inputValue2 + toCheckValue })
+    // console.log('stateIndexUpdater', 'index: ', this.state.index, 'value: ', this.state.correctValue )
+  }
+
+  stateIndexZeroer = (toCheckValue) => {
+    this.setState({ index: 0, correctValue: '', correctValue2: '', inputValue2: '', inputValue: '' });
+    // console.log('stateIndexZeroer', 'index: ', this.state.index)
+  }
+
+  correctValueUpdater = (correctValue) => {
+    this.setState({ correctValue: correctValue })
+  }
+
+  inputValueUpdater = (toCheckValue) => {
+    this.setState({ inputValue: toCheckValue })
+  }
+
+  // const goodValue = this.props.inputValue.substring(
+  //   0,
+  //   this.props.correctValue.length
+  // );
+  // const badValue = this.props.inputValue.substring(
+  //   this.props.correctValue.length
+  // );
+  // const fullValue = this.props.dictionary.substring(
+  //   this.props.correctValue.length + badValue.length,
+  //   this.props.dictionary.length
+  // );
 
   textCheckHandler = event => {
-    var toCheckValue = event.target.value;
     var dictArray = this.props.dictionary.split(' ')
-    // var reReversedString = preCurrentValue.split(" ").reverse()[0];
+    var toCheckValue = event.target.value;
     var index = this.state.index;
-    console.log(dictArray[index])
-    this.enterValueHandler(toCheckValue);
-    // const toCheckValue = this.state.toCheckValue;
-    const dictionary = this.props.dictionary;
-    // const dictLength = dictionary.length;
+    if (index < 1) {
+      var correctValue = '';
+      var inputValue = '';
+    }
+    else {
+      var correctValue = this.state.correctValue
+      var inputValue = this.state.inputValue
+    }
+    inputValue = this.state.inputValue2 + toCheckValue;
+
     const dictLength = dictArray[index].length;
     const enteredLength = toCheckValue.length;
-    // const toCheck = dictionary.substr(0, enteredLength);
+    var dictArrayLength = dictArray.length;
+    this.enterValueHandler(toCheckValue);
+    const dictionary = this.props.dictionary;
     const toCheck = dictArray[index].substr(0, enteredLength);
     var toCheckValue3 = '';
-    var toCheckValue2 = '';
-    var correctValue = '';
+    // var correctValue = this.state.correctValue;
+    // var correctValue = '';
     var correctValue2 = '';
+    // console.log(this.state.correctValue)
+    this.inputValueUpdater(inputValue);
+
 
     if (dictLength >= enteredLength && toCheck !== toCheckValue) {
       this.props.error();
-      console.log('error1')
-      console.log(index)
-      console.log(toCheck)
-      console.log(toCheckValue)
     } else if (
       dictLength < enteredLength &&
       !toCheckValue.includes(dictArray[index])
     ) {
       this.props.error();
-      console.log('error2')
-    } else {
+    } 
+    else if (dictLength < enteredLength && !toCheckValue.includes(' ')) {
+      this.props.error()
+    }
+
+
+    else {
+      // if ()
+      correctValue = this.state.correctValue2 + toCheckValue
+      this.correctValueUpdater(correctValue);
+
+      // correctValue = this.state.correctValue2 + toCheckValue;
       if (event.target.value.includes(' ')) {
-        correctValue2 = event.target.value;
-        this.setState ({ index: index+1 })
-        console.log(event.target.value)
-        console.log('space')
-        console.log(index)
+        console.log(dictLength, enteredLength)
+  
+  
+        this.correctValueUpdater(correctValue);
+        console.log(this.state.correctValue)
+
+        // correctValue = correctValue + event.target.value;
+        this.stateIndexUpdader(toCheckValue, inputValue);
+        correctValue = this.state.correctValue2 + toCheckValue;
+
+        // console.log('value: ', correctValue)
+        if (dictArrayLength === index + 1) {
+          correctValue = ''
+          // console.log('zero', dictArrayLength, index, 'value: ', correctValue)
+          this.grabDictionary("newtext");
+          toCheckValue = "";
+          this.props.newTask();
+          this.props.clearCorrectValue();
+          this.stateIndexZeroer();
+        }
       }
-      else {
-        correctValue = correctValue + correctValue2
-      }
+      // else {
+      //   correctValue = correctValue + correctValue2
+      // }
 
       this.props.loadCorrectValue(toCheckValue);
       this.props.noError();
-      if (dictLength < enteredLength) {
-        // this.grabDictionary("newtext");
-        // enteredValue = "";
-        // this.props.newTask();
-        // this.props.clearCorrectValue();
-        // index = index +1;
-      }
-      // if (event.which)
-      // console.log(event.key);
     }
   };
 
@@ -145,19 +195,20 @@ class Boyarin extends Component {
   render() {
     let isError = "App";
     if (this.props.isError == null) {
-      isError = "App";
+      isError = "Input";
     } else {
       isError = "Error";
     }
-    const goodValue = this.props.inputValue.substring(
+    const goodValue = this.state.inputValue.substring(
       0,
-      this.props.correctValue.length
+      this.state.correctValue.length
     );
-    const badValue = this.props.inputValue.substring(
-      this.props.correctValue.length
+    const badValue = this.props.dictionary.substring(
+      this.state.correctValue.length,
+      this.state.inputValue.length
     );
     const fullValue = this.props.dictionary.substring(
-      this.props.correctValue.length + badValue.length,
+      this.state.correctValue.length + badValue.length,
       this.props.dictionary.length
     );
     // span.innerHTML = value.substring(0, 3) + '<span class="red">' + value.substring(2) + '</span>'
@@ -171,6 +222,21 @@ class Boyarin extends Component {
             handleSelect={this.handleSelect}
           />
         </div>
+
+        <div>
+          {/* <div>
+            correctValue: {this.state.correctValue}
+          </div>
+          <div>
+            correctValue2: {this.state.correctValue2}
+          </div>
+          <div>
+            inputValue: {this.state.inputValue}
+          </div>
+          <div>
+            inputValue2: {this.state.inputValue2}
+          </div> */}
+        </div>
         <div className="App">
           <span className="GoodValue">{goodValue}</span>
           <span className="BadValue">{badValue}</span>
@@ -183,7 +249,7 @@ class Boyarin extends Component {
           {this.props.inputValue}
         </div> */}
         <div>
-          <input className='App'
+          <input className='Input'
             onKeyUp={event => {
               this.taskRefreshHandler(event);
             }}
@@ -195,7 +261,7 @@ class Boyarin extends Component {
           />
         </div>
         <div>
-          {this.props.currentValue}
+          {/* {this.props.currentValue} */}
         </div>
         {/* <TextInput
           // className='App'
