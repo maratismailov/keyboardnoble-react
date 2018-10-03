@@ -6,7 +6,7 @@ const initialState = {
     // newDictionary: null,
     file: require('../dictionary/rui_top200.txt'),
     inputValue: '',
-    value: 'Русский интернет-корпус топ 200',
+    name: 'Русский интернет-корпус топ 200',
     preTask: 'Pretask test text7',
     task: null,
     textLoaded: false,
@@ -23,12 +23,13 @@ const reducer = (state = initialState, action) => {
     // console.log(action.allText)
     switch (action.type) {
         case 'HANDLE_SELECT':
+        console.log(action.selectedOption)
             return {
                 ...state,
-                file: action.selectedOption.key,
+                file: action.file,
                 inputValue: '',
                 error: null,
-                value: action.selectedOption.item.props.children,
+                name: action.name,
                 menuIsOpen: false
             }
 

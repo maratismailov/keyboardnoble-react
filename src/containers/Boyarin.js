@@ -20,7 +20,7 @@ class Boyarin extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.value !== prevProps.value) {
+    if (this.props.file !== prevProps.file) {
       this.loadText(this.props.file);
     }
     // if (this.props.inputValue !== prevProps.inputValue) {
@@ -32,8 +32,11 @@ class Boyarin extends Component {
     // }
   }
 
-  handleSelect = selectedOption => {
-    this.props.handleSelectStore(selectedOption);
+  handleSelect = event => {
+    const file = event.target.dataset.file
+    const name = event.target.dataset.name
+    this.props.handleSelectStore(file, name);
+    // console.log(event.target.dataset.value)
   };
 
   loadText = path => {
@@ -138,7 +141,7 @@ class Boyarin extends Component {
       !toCheckValue.includes(dictArray[index])
     ) {
       this.props.error();
-    } 
+    }
     else if (dictLength < enteredLength && !toCheckValue.includes(' ')) {
       this.props.error()
     }
@@ -152,8 +155,8 @@ class Boyarin extends Component {
       // correctValue = this.state.correctValue2 + toCheckValue;
       if (event.target.value.includes(' ')) {
         console.log(dictLength, enteredLength)
-  
-  
+
+
         this.correctValueUpdater(correctValue);
         console.log(this.state.correctValue)
 
@@ -219,11 +222,11 @@ class Boyarin extends Component {
         <div className="Menu">
           <DictSelectMenu
             className="rc-menu"
-            placeholder={this.props.value}
+            placeholder={this.props.name}
             handleSelect={this.handleSelect}
+            // value={this.props.value}
           />
         </div>
-
         <div>
           {/* <div>
             correctValue: {this.state.correctValue}
@@ -283,7 +286,7 @@ class Boyarin extends Component {
 
 const MapStateToProps = state => {
   return {
-    value: state.value,
+    name: state.name,
     isError: state.error,
     inputValue: state.inputValue,
     dictionary: state.dictionary,
@@ -298,8 +301,8 @@ const MapStateToProps = state => {
 
 const MapDispatchToProps = dispatch => {
   return {
-    handleSelectStore: selectedOption =>
-      dispatch({ type: "HANDLE_SELECT", selectedOption: selectedOption }),
+    handleSelectStore: (file, name) =>
+      dispatch({ type: "HANDLE_SELECT", file: file, name: name }),
     loadTextStore: allText => dispatch({ type: "LOAD_TEXT", allText: allText }),
     grabDictionary: preReadyDict =>
       dispatch({ type: "GRAB_DICT", preReadyDict: preReadyDict }),
