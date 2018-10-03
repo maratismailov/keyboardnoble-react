@@ -61,6 +61,7 @@ class Boyarin extends Component {
     }
     // console.log(preReadyDict);
     this.props.grabDictionary(preReadyDict);
+    this.setState({ currentValue: '', correctValue: '', correctValue2: '', index: 0, inputValue: '', inputValue2: '' })
   };
 
   enterValueHandler = enteredValue => {

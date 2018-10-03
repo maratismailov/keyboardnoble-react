@@ -43,6 +43,8 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 dictionary: action.preReadyDict,
+                currentValue: '',
+                correctValue: ''
             }
 
         case 'ENTER_VALUE':
