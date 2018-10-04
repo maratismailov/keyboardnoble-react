@@ -35,15 +35,26 @@ class Boyarin extends Component {
   handleSelect = event => {
     const file = event.target.dataset.file
     const name = event.target.dataset.name
-    this.props.handleSelectStore(file, name);
+    const dictType = event.target.dataset.dictType
+    this.props.handleSelectStore(file, name, dictType);
     // console.log(event.target.dataset.value)
   };
 
   loadText = path => {
-    axios.get(path).then(allText => {
-      this.props.loadTextStore(allText.data);
-      this.grabDictionary();
-    });
+    const dictType = this.props.dictType;
+    if (dictType === 'words') {
+      axios.get(path).then(allText => {
+        this.props.loadTextStore(allText.data);
+        this.grabDictionary();
+      });
+    }
+    else {
+      axios.get(path, {responseType: 'blob'}).then(allText => {
+
+        this.props.loadTextStore(allText.data);
+        this.grabDictionary();
+      });
+    }
   };
 
   grabDictionary = () => {
@@ -224,7 +235,7 @@ class Boyarin extends Component {
             className="rc-menu"
             placeholder={this.props.name}
             handleSelect={this.handleSelect}
-            // value={this.props.value}
+          // value={this.props.value}
           />
         </div>
         <div>
@@ -295,14 +306,15 @@ const MapStateToProps = state => {
     menuIsOpen: state.menuIsOpen,
     textLoaded: state.textLoaded,
     correctValue: state.correctValue,
-    currentValue: state.currentValue
+    currentValue: state.currentValue,
+    dictType: state.dictType
   };
 };
 
 const MapDispatchToProps = dispatch => {
   return {
-    handleSelectStore: (file, name) =>
-      dispatch({ type: "HANDLE_SELECT", file: file, name: name }),
+    handleSelectStore: (file, name, dictType) =>
+      dispatch({ type: "HANDLE_SELECT", file: file, name: name, dictType: dictType }),
     loadTextStore: allText => dispatch({ type: "LOAD_TEXT", allText: allText }),
     grabDictionary: preReadyDict =>
       dispatch({ type: "GRAB_DICT", preReadyDict: preReadyDict }),

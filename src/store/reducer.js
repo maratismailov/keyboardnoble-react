@@ -30,7 +30,8 @@ const reducer = (state = initialState, action) => {
                 inputValue: '',
                 error: null,
                 name: action.name,
-                menuIsOpen: false
+                menuIsOpen: false,
+                dictType: action.dictType
             }
 
         case 'LOAD_TEXT':
