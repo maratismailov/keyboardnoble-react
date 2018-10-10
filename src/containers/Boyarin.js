@@ -16,12 +16,16 @@ class Boyarin extends Component {
     this.state = { currentValue: '', correctValue: '', correctValue2: '', index: 0, inputValue: '', inputValue2: '' }
   }
   componentDidMount() {
+    this.nameInput.focus();
     this.loadText(this.props.file);
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.file !== prevProps.file) {
       this.loadText(this.props.file);
+    }
+    if (this.props.dictionary != prevProps.dictionary) {
+      this.nameInput.focus();
     }
     // if (this.props.inputValue !== prevProps.inputValue) {
     //   // this.setState({ toCheckValue: this.props.inputValue})
@@ -35,48 +39,52 @@ class Boyarin extends Component {
   handleSelect = event => {
     const file = event.target.dataset.file
     const name = event.target.dataset.name
-    const dictType = event.target.dataset.dictType
+    const dictType = event.target.dataset.dicttype
     this.props.handleSelectStore(file, name, dictType);
     // console.log(event.target.dataset.value)
   };
 
   loadText = path => {
     const dictType = this.props.dictType;
-    if (dictType === 'words') {
-      axios.get(path).then(allText => {
-        this.props.loadTextStore(allText.data);
-        this.grabDictionary();
-      });
-    }
-    else {
-      axios.get(path, {responseType: 'blob'}).then(allText => {
-
-        this.props.loadTextStore(allText.data);
-        this.grabDictionary();
-      });
-    }
+    axios.get(path).then(allText => {
+      this.props.loadTextStore(allText.data);
+      this.grabDictionary();
+    });
   };
 
   grabDictionary = () => {
-    // console.log("this.props.preTask");
-    const preTask = this.props.preTask;
-    const dictLength = preTask.split("\n").length;
-    const firstRandomElement = Math.floor(Math.random() * (dictLength - 2)) + 1;
-    const taskLength = 18;
-    const newDict = preTask.split(/\r?\n/g);
-    var preReadyDict = newDict[firstRandomElement] + " ";
-    for (let i = 1; i < taskLength; i++) {
-      const randomElement = Math.floor(Math.random() * (dictLength - 2)) + 1;
-      if (i !== taskLength - 1) {
-        preReadyDict = preReadyDict + newDict[randomElement] + " ";
-      } else {
-        preReadyDict = preReadyDict + newDict[randomElement];
+    if (this.props.dictType === 'words') {
+      const preTask = this.props.preTask;
+      const dictLength = preTask.split("\n").length;
+      const firstRandomElement = Math.floor(Math.random() * (dictLength - 2)) + 1;
+      const taskLength = 18;
+      const newDict = preTask.split(/\r?\n/g);
+      var preReadyDict = newDict[firstRandomElement] + " ";
+      for (let i = 1; i < taskLength; i++) {
+	const randomElement = Math.floor(Math.random() * (dictLength - 2)) + 1;
+	if (i !== taskLength - 1) {
+	  preReadyDict = preReadyDict + newDict[randomElement] + " ";
+	} else {
+	  preReadyDict = preReadyDict + newDict[randomElement];
+	}
       }
+      // console.log(preReadyDict);
+      this.props.grabDictionary(preReadyDict);
+      this.setState({ currentValue: '', correctValue: '', correctValue2: '', index: 0, inputValue: '', inputValue2: '' })
     }
-    // console.log(preReadyDict);
-    this.props.grabDictionary(preReadyDict);
-    this.setState({ currentValue: '', correctValue: '', correctValue2: '', index: 0, inputValue: '', inputValue2: '' })
-  };
+    else {
+      const preTask = this.props.preTask;
+      const dictLength = preTask.split("\n").length;
+      const firstRandomElement = Math.floor(Math.random() * (dictLength - 2)) + 1;
+      const newDict = preTask.split(/\r?\n/g);
+      var preReadyDict = newDict[firstRandomElement];
+      // console.log(preReadyDict);
+      this.props.grabDictionary(preReadyDict);
+      this.setState({ currentValue: '', correctValue: '', correctValue2: '', index: 0, inputValue: '', inputValue2: '' })
+    }
+  }
+
+  // console.log("this.props.preTask");
 
   enterValueHandler = enteredValue => {
     this.props.enteredValue(enteredValue)
@@ -165,26 +173,26 @@ class Boyarin extends Component {
 
       // correctValue = this.state.correctValue2 + toCheckValue;
       if (event.target.value.includes(' ')) {
-        console.log(dictLength, enteredLength)
+	console.log(dictLength, enteredLength)
 
 
-        this.correctValueUpdater(correctValue);
-        console.log(this.state.correctValue)
+	this.correctValueUpdater(correctValue);
+	console.log(this.state.correctValue)
 
-        // correctValue = correctValue + event.target.value;
-        this.stateIndexUpdader(toCheckValue, inputValue);
-        correctValue = this.state.correctValue2 + toCheckValue;
+	// correctValue = correctValue + event.target.value;
+	this.stateIndexUpdader(toCheckValue, inputValue);
+	correctValue = this.state.correctValue2 + toCheckValue;
 
-        // console.log('value: ', correctValue)
-        if (dictArrayLength === index + 1) {
-          correctValue = ''
-          // console.log('zero', dictArrayLength, index, 'value: ', correctValue)
-          this.grabDictionary("newtext");
-          toCheckValue = "";
-          this.props.newTask();
-          this.props.clearCorrectValue();
-          this.stateIndexZeroer();
-        }
+	// console.log('value: ', correctValue)
+	if (dictArrayLength === index + 1) {
+	  correctValue = ''
+	  // console.log('zero', dictArrayLength, index, 'value: ', correctValue)
+	  this.grabDictionary("newtext");
+	  toCheckValue = "";
+	  this.props.newTask();
+	  this.props.clearCorrectValue();
+	  this.stateIndexZeroer();
+	}
       }
       // else {
       //   correctValue = correctValue + correctValue2
@@ -230,66 +238,67 @@ class Boyarin extends Component {
 
     return (
       <div>
-        <div className="Menu">
-          <DictSelectMenu
-            className="rc-menu"
-            placeholder={this.props.name}
-            handleSelect={this.handleSelect}
-          // value={this.props.value}
-          />
-        </div>
-        <div>
-          {/* <div>
-            correctValue: {this.state.correctValue}
-          </div>
-          <div>
-            correctValue2: {this.state.correctValue2}
-          </div>
-          <div>
-            inputValue: {this.state.inputValue}
-          </div>
-          <div>
-            inputValue2: {this.state.inputValue2}
-          </div> */}
-        </div>
-        <div className="App">
-          <span className="GoodValue">{goodValue}</span>
-          <span className="BadValue">{badValue}</span>
-          <span className="FullValue">{fullValue}</span>
-        </div>
-        {/* <div className='App'>
-          <ShowTask task={this.props.dictionary} />
-        </div> */}
-        {/* <div className='App2'>
-          {this.props.inputValue}
-        </div> */}
-        <div>
-          <input className='Input'
-            onKeyUp={event => {
-              this.taskRefreshHandler(event);
-            }}
-            onChange={event => {
-              this.textCheckHandler(event);
-            }}
-            value={this.props.currentValue}
-            className={isError}
-          />
-        </div>
-        <div>
-          {/* {this.props.currentValue} */}
-        </div>
-        {/* <TextInput
-          // className='App'
-          isError={this.props.isError}
-          changed={(event) => {
-            this.textCheckHandler(event)
-          }}
-          value={this.props.inputValue}
-        // ref={elem => this.textFocus = elem}
-        /> */}
-        <div className="App">
-          <div>{this.props.error}</div>
-        </div>
+	<div className="Menu">
+	  <DictSelectMenu
+	    className="rc-menu"
+	    placeholder={this.props.name}
+	    handleSelect={this.handleSelect}
+	    // value={this.props.value}
+      />
+    </div>
+    <div>
+      {/* <div>
+	    correctValue: {this.state.correctValue}
+	  </div>
+	  <div>
+	    correctValue2: {this.state.correctValue2}
+	  </div>
+	  <div>
+	    inputValue: {this.state.inputValue}
+	  </div>
+	  <div>
+	    inputValue2: {this.state.inputValue2}
+	  </div> */}
+	</div>
+	<div className="App">
+	  <span className="GoodValue">{goodValue}</span>
+	  <span className="BadValue">{badValue}</span>
+	  <span className="FullValue">{fullValue}</span>
+	</div>
+	{/* <div className='App'>
+	  <ShowTask task={this.props.dictionary} />
+	</div> */}
+	{/* <div className='App2'>
+	  {this.props.inputValue}
+	</div> */}
+	<div>
+	  <input className='Input'
+	    onKeyUp={event => {
+	      this.taskRefreshHandler(event);
+	    }}
+	    onChange={event => {
+	      this.textCheckHandler(event);
+	    }}
+            ref={(input) => {this.nameInput = input;}}
+	    value={this.props.currentValue}
+	    className={isError}
+	  />
+	</div>
+	<div>
+	  {/* {this.props.currentValue} */}
+	</div>
+	{/* <TextInput
+	  // className='App'
+	  isError={this.props.isError}
+	  changed={(event) => {
+	    this.textCheckHandler(event)
+	  }}
+	  value={this.props.inputValue}
+	  // ref={elem => this.textFocus = elem}
+	/> */}
+	<div className="App">
+	  <div>{this.props.error}</div>
+	</div>
       </div>
     );
   }
@@ -314,18 +323,18 @@ const MapStateToProps = state => {
 const MapDispatchToProps = dispatch => {
   return {
     handleSelectStore: (file, name, dictType) =>
-      dispatch({ type: "HANDLE_SELECT", file: file, name: name, dictType: dictType }),
+    dispatch({ type: "HANDLE_SELECT", file: file, name: name, dictType: dictType }),
     loadTextStore: allText => dispatch({ type: "LOAD_TEXT", allText: allText }),
     grabDictionary: preReadyDict =>
-      dispatch({ type: "GRAB_DICT", preReadyDict: preReadyDict }),
+    dispatch({ type: "GRAB_DICT", preReadyDict: preReadyDict }),
     enteredValue: enteredValue =>
-      dispatch({ type: "ENTER_VALUE", inputValue: enteredValue }),
+    dispatch({ type: "ENTER_VALUE", inputValue: enteredValue }),
     error: () => dispatch({ type: "IS_ERROR" }),
     noError: () => dispatch({ type: "NO_ERROR" }),
     refreshTaskInStore: () => dispatch({ type: "REFRESH_TASK" }),
     newTask: () => dispatch({ type: "NEW_TASK" }),
     loadCorrectValue: toCheckValue =>
-      dispatch({ type: "CORRECT_VALUE", inputValue: toCheckValue }),
+    dispatch({ type: "CORRECT_VALUE", inputValue: toCheckValue }),
     clearCorrectValue: () => dispatch({ type: "CLEAR_CORRECT_VALUE" })
   };
 };

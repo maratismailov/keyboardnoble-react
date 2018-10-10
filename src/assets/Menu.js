@@ -284,7 +284,6 @@ const DictSelectMenu = props => {
                   </li>
                 </ul>
               </li>
-              <li><a href="#">Tutorials</a></li>
             </ul>
           </li>
         </ul>
