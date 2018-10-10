@@ -282,6 +282,14 @@ const DictSelectMenu = props => {
                       Обычный английский
                     </a>
                   </li>
+                  <li>
+                    <a onClick={props.handleSelect}
+                      data-file={require('../dictionary/text_eng_short_kg.txt')}
+                      data-name='Короткий английский'
+                      data-dictType='text'>
+                      Короткий английский
+                    </a>
+                  </li>
                 </ul>
               </li>
             </ul>
