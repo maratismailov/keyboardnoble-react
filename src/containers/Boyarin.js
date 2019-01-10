@@ -358,7 +358,7 @@ class Boyarin extends Component {
           <p>{this.props.githubId}</p>
           <p>currentValue {this.props.currentValue}</p>
           <p>correctValue {this.props.correctValue}</p> */}
-          <p>language {this.props.language}</p>
+          {/* <p>language {this.props.language}</p> */}
           <img src={keyboardImagePath} width='100%' />
         </div>
       </div>
