@@ -26,6 +26,8 @@ import "../rc-menu.css";
 
 // var axiosTest2 = axiosTest.data.forks_url;
 
+
+
 class Boyarin extends Component {
   constructor(props) {
     super(props)
@@ -53,10 +55,11 @@ class Boyarin extends Component {
   }
 
   handleSelect = event => {
+    const language = event.target.dataset.language
     const file = event.target.dataset.file
     const name = event.target.dataset.name
     const dictType = event.target.dataset.dicttype
-    this.props.handleSelectStore(file, name, dictType);
+    this.props.handleSelectStore(file, name, dictType, language);
     // console.log(event.target.dataset.value)
   };
 
@@ -259,6 +262,14 @@ class Boyarin extends Component {
   }
 
   render() {
+
+    let keyboardImagePath = require('../assets/ru_keyboard.png')
+    if (this.props.language === 'ru') {
+      keyboardImagePath = require('../assets/ru_keyboard.png')
+    }
+    else {
+      keyboardImagePath = require('../assets/eng_keyboard.png')
+    }
     let isError = "App";
     if (this.props.isError == null) {
       isError = "Input";
@@ -347,7 +358,8 @@ class Boyarin extends Component {
           <p>{this.props.githubId}</p>
           <p>currentValue {this.props.currentValue}</p>
           <p>correctValue {this.props.correctValue}</p> */}
-          <img src={require('../assets/ru_keyboard.png')} width='100%'/>
+          <p>language {this.props.language}</p>
+          <img src={keyboardImagePath} width='100%' />
         </div>
       </div>
     );
@@ -367,14 +379,15 @@ const MapStateToProps = state => {
     correctValue: state.correctValue,
     currentValue: state.currentValue,
     dictType: state.dictType,
-    githubId: state.result
+    githubId: state.result,
+    language: state.language
   };
 };
 
 const MapDispatchToProps = dispatch => {
   return {
-    handleSelectStore: (file, name, dictType) =>
-      dispatch({ type: "HANDLE_SELECT", file: file, name: name, dictType: dictType }),
+    handleSelectStore: (file, name, dictType, language) =>
+      dispatch({ type: "HANDLE_SELECT", file: file, name: name, dictType: dictType, language: language }),
     loadTextStore: allText => dispatch({ type: "LOAD_TEXT", allText: allText }),
     loadAxiosToStore: result => dispatch({ type: "LOAD_AXIOS", result: result }),
     grabDictionary: preReadyDict =>

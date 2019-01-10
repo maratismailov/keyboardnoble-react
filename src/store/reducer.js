@@ -16,7 +16,8 @@ const initialState = {
   input2Value: '',
   correct2Value: '',
   input3Value: '',
-  dictType: 'words'
+  dictType: 'words',
+  language: 'ru'
 
   // menuIsOpen: true
 }
@@ -32,7 +33,8 @@ const reducer = (state = initialState, action) => {
         error: null,
         name: action.name,
         menuIsOpen: false,
-        dictType: action.dictType
+        dictType: action.dictType,
+        language: action.language
       }
 
     case 'LOAD_TEXT':
