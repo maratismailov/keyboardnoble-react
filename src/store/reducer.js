@@ -42,6 +42,12 @@ const reducer = (state = initialState, action) => {
         textLoaded: true
       }
 
+      case 'LOAD_AXIOS':
+      return {
+        ...state,
+        result: action.result
+      }
+
     case 'GRAB_DICT':
       return {
         ...state,

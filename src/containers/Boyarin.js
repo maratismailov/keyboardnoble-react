@@ -4,16 +4,32 @@ import TextInput from "./TextInput";
 import ShowTask from "../components/ShowTask";
 import { connect } from "react-redux";
 import DictSelectMenu from "../assets/Menu";
+// import ru_keyboard from '../assets/ru_keyboard.png'
 
 import "../Style.css";
 import "../rc-menu.css";
 
-var toCheckValue = '';
+// var toCheckValue = '';
+// var axiosTest = axios.get('https://api.github.com/repos/regfe89/keyboardnoble').data.forks_url;
+// const axiosTest = async () => {
+//   try {
+//     const preResult = await axios.get('https://api.github.com/repos/regfe89/keyboardnoble');
+//     console.log('inside', preResult.data.id);
+//     this.setState({ axios: preResult.data.id })
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
+// const axiosResult = async () => {
+//   return await Promise axiosTest()
+// }
+
+// var axiosTest2 = axiosTest.data.forks_url;
 
 class Boyarin extends Component {
   constructor(props) {
     super(props)
-    this.state = { currentValue: '', correctValue: '', correctValue2: '', index: 0, inputValue: '', inputValue2: '' }
+    this.state = { currentValue: '', correctValue: '', correctValue2: '', index: 0, inputValue: '', inputValue2: '', axios: '' }
   }
   componentDidMount() {
     this.nameInput.focus();
@@ -50,7 +66,27 @@ class Boyarin extends Component {
       this.props.loadTextStore(allText.data);
       this.grabDictionary();
     });
+
+
+    // const axiosTest2 = await axiosTest();
+    // (async () => {
+    //   console.log(await axiosTest())
+    // })()
+    // console.log('ddd');
+    this.axiosTest();
+    console.log('outside', this.props.githubId);
   };
+
+  axiosTest = async () => {
+    try {
+      const preResult = await axios.get('https://api.github.com/repos/regfe89/keyboardnoble');
+      // console.log('inside', preResult.data.id);
+      const result = preResult.data.id;
+      this.props.loadAxiosToStore(result)
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   grabDictionary = () => {
     if (this.props.dictType === 'words') {
@@ -61,12 +97,12 @@ class Boyarin extends Component {
       const newDict = preTask.split(/\r?\n/g);
       var preReadyDict = newDict[firstRandomElement] + " ";
       for (let i = 1; i < taskLength; i++) {
-	const randomElement = Math.floor(Math.random() * (dictLength - 2)) + 1;
-	if (i !== taskLength - 1) {
-	  preReadyDict = preReadyDict + newDict[randomElement] + " ";
-	} else {
-	  preReadyDict = preReadyDict + newDict[randomElement];
-	}
+        const randomElement = Math.floor(Math.random() * (dictLength - 2)) + 1;
+        if (i !== taskLength - 1) {
+          preReadyDict = preReadyDict + newDict[randomElement] + " ";
+        } else {
+          preReadyDict = preReadyDict + newDict[randomElement];
+        }
       }
       // console.log(preReadyDict);
       this.props.grabDictionary(preReadyDict);
@@ -153,16 +189,23 @@ class Boyarin extends Component {
     this.inputValueUpdater(inputValue);
 
 
+    // if (this.props.correctValue === this.props.currentValue) {
+    //   this.props.noError();
+    //   console.log('ne error nakhoi')
+    // }
     if (dictLength >= enteredLength && toCheck !== toCheckValue) {
       this.props.error();
-    } else if (
-      dictLength < enteredLength &&
-      !toCheckValue.includes(dictArray[index])
+    }
+    else if (
+      dictLength < enteredLength && !toCheckValue.includes(dictArray[index])
     ) {
       this.props.error();
     }
     else if (dictLength < enteredLength && !toCheckValue.includes(' ')) {
       this.props.error()
+    }
+    else if (this.props.isError === 'error' && toCheck !== toCheckValue) {
+      this.props.error();
     }
 
 
@@ -173,31 +216,31 @@ class Boyarin extends Component {
 
       // correctValue = this.state.correctValue2 + toCheckValue;
       if (event.target.value.includes(' ')) {
-	console.log(dictLength, enteredLength)
+        // console.log(dictLength, enteredLength)
 
 
-	this.correctValueUpdater(correctValue);
-	console.log(this.state.correctValue)
+        this.correctValueUpdater(correctValue);
+        // console.log(this.state.correctValue)
 
-	// correctValue = correctValue + event.target.value;
-	this.stateIndexUpdader(toCheckValue, inputValue);
-	correctValue = this.state.correctValue2 + toCheckValue;
+        // correctValue = correctValue + event.target.value;
+        this.stateIndexUpdader(toCheckValue, inputValue);
+        correctValue = this.state.correctValue2 + toCheckValue;
 
-	// console.log('value: ', correctValue)
-	if (dictArrayLength === index + 1) {
-	  correctValue = ''
-	  // console.log('zero', dictArrayLength, index, 'value: ', correctValue)
-	  this.grabDictionary("newtext");
-	  toCheckValue = "";
-	  this.props.newTask();
-	  this.props.clearCorrectValue();
-	  this.stateIndexZeroer();
-	}
+        // console.log('value: ', correctValue)
+        if (dictArrayLength === index + 1) {
+          correctValue = ''
+          // console.log('zero', dictArrayLength, index, 'value: ', correctValue)
+          this.grabDictionary("newtext");
+          toCheckValue = "";
+          this.props.newTask();
+          this.props.clearCorrectValue();
+          this.stateIndexZeroer();
+        }
       }
       // else {
       //   correctValue = correctValue + correctValue2
       // }
-
+      console.log('ne error nakhoi', this.props.isError, toCheck, toCheckValue)
       this.props.loadCorrectValue(toCheckValue);
       this.props.noError();
     }
@@ -238,16 +281,16 @@ class Boyarin extends Component {
 
     return (
       <div>
-	<div className="Menu">
-	  <DictSelectMenu
-	    className="rc-menu"
-	    placeholder={this.props.name}
-	    handleSelect={this.handleSelect}
-	    // value={this.props.value}
-      />
-    </div>
-    <div>
-      {/* <div>
+        <div className="Menu">
+          <DictSelectMenu
+            className="rc-menu"
+            placeholder={this.props.name}
+            handleSelect={this.handleSelect}
+          // value={this.props.value}
+          />
+        </div>
+        <div>
+          {/* <div>
 	    correctValue: {this.state.correctValue}
 	  </div>
 	  <div>
@@ -259,35 +302,35 @@ class Boyarin extends Component {
 	  <div>
 	    inputValue2: {this.state.inputValue2}
 	  </div> */}
-	</div>
-	<div className="App">
-	  <span className="GoodValue">{goodValue}</span>
-	  <span className="BadValue">{badValue}</span>
-	  <span className="FullValue">{fullValue}</span>
-	</div>
-	{/* <div className='App'>
+        </div>
+        <div className="App">
+          <span className="GoodValue">{goodValue}</span>
+          <span className="BadValue">{badValue}</span>
+          <span className="FullValue">{fullValue}</span>
+        </div>
+        {/* <div className='App'>
 	  <ShowTask task={this.props.dictionary} />
 	</div> */}
-	{/* <div className='App2'>
+        {/* <div className='App2'>
 	  {this.props.inputValue}
 	</div> */}
-	<div>
-	  <input className='Input'
-	    onKeyUp={event => {
-	      this.taskRefreshHandler(event);
-	    }}
-	    onChange={event => {
-	      this.textCheckHandler(event);
-	    }}
-            ref={(input) => {this.nameInput = input;}}
-	    value={this.props.currentValue}
-	    className={isError}
-	  />
-	</div>
-	<div>
-	  {/* {this.props.currentValue} */}
-	</div>
-	{/* <TextInput
+        <div>
+          <input className='Input'
+            onKeyUp={event => {
+              this.taskRefreshHandler(event);
+            }}
+            onChange={event => {
+              this.textCheckHandler(event);
+            }}
+            ref={(input) => { this.nameInput = input; }}
+            value={this.props.currentValue}
+            className={isError}
+          />
+        </div>
+        <div>
+          {/* {this.props.currentValue} */}
+        </div>
+        {/* <TextInput
 	  // className='App'
 	  isError={this.props.isError}
 	  changed={(event) => {
@@ -296,9 +339,16 @@ class Boyarin extends Component {
 	  value={this.props.inputValue}
 	  // ref={elem => this.textFocus = elem}
 	/> */}
-	<div className="App">
-	  <div>{this.props.error}</div>
-	</div>
+        <div className="App">
+          <div>{this.props.error}</div>
+        </div>
+        <div className='App'>
+          {/* <p>something</p>
+          <p>{this.props.githubId}</p>
+          <p>currentValue {this.props.currentValue}</p>
+          <p>correctValue {this.props.correctValue}</p> */}
+          <img src={require('../assets/ru_keyboard.png')} width='100%'/>
+        </div>
       </div>
     );
   }
@@ -316,25 +366,27 @@ const MapStateToProps = state => {
     textLoaded: state.textLoaded,
     correctValue: state.correctValue,
     currentValue: state.currentValue,
-    dictType: state.dictType
+    dictType: state.dictType,
+    githubId: state.result
   };
 };
 
 const MapDispatchToProps = dispatch => {
   return {
     handleSelectStore: (file, name, dictType) =>
-    dispatch({ type: "HANDLE_SELECT", file: file, name: name, dictType: dictType }),
+      dispatch({ type: "HANDLE_SELECT", file: file, name: name, dictType: dictType }),
     loadTextStore: allText => dispatch({ type: "LOAD_TEXT", allText: allText }),
+    loadAxiosToStore: result => dispatch({ type: "LOAD_AXIOS", result: result }),
     grabDictionary: preReadyDict =>
-    dispatch({ type: "GRAB_DICT", preReadyDict: preReadyDict }),
+      dispatch({ type: "GRAB_DICT", preReadyDict: preReadyDict }),
     enteredValue: enteredValue =>
-    dispatch({ type: "ENTER_VALUE", inputValue: enteredValue }),
+      dispatch({ type: "ENTER_VALUE", inputValue: enteredValue }),
     error: () => dispatch({ type: "IS_ERROR" }),
     noError: () => dispatch({ type: "NO_ERROR" }),
     refreshTaskInStore: () => dispatch({ type: "REFRESH_TASK" }),
     newTask: () => dispatch({ type: "NEW_TASK" }),
     loadCorrectValue: toCheckValue =>
-    dispatch({ type: "CORRECT_VALUE", inputValue: toCheckValue }),
+      dispatch({ type: "CORRECT_VALUE", inputValue: toCheckValue }),
     clearCorrectValue: () => dispatch({ type: "CLEAR_CORRECT_VALUE" })
   };
 };
