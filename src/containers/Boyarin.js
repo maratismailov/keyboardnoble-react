@@ -292,6 +292,7 @@ class Boyarin extends Component {
 
     return (
       <div>
+      <div className='App'>
         <div className="Menu">
           <DictSelectMenu
             className="rc-menu"
@@ -314,7 +315,7 @@ class Boyarin extends Component {
 	    inputValue2: {this.state.inputValue2}
 	  </div> */}
         </div>
-        <div className="App">
+        <div>
           <span className="GoodValue">{goodValue}</span>
           <span className="BadValue">{badValue}</span>
           <span className="FullValue">{fullValue}</span>
@@ -350,16 +351,18 @@ class Boyarin extends Component {
 	  value={this.props.inputValue}
 	  // ref={elem => this.textFocus = elem}
 	/> */}
-        <div className="App">
+        <div>
           <div>{this.props.error}</div>
         </div>
-        <div className='Keyboard'>
+       
+      </div>
+      <div className='Keyboard'>
           {/* <p>something</p>
           <p>{this.props.githubId}</p>
           <p>currentValue {this.props.currentValue}</p>
           <p>correctValue {this.props.correctValue}</p> */}
           {/* <p>language {this.props.language}</p> */}
-          <img src={keyboardImagePath} width='80%' align="center"/>
+          <img src={keyboardImagePath} width='100%' align="center"/>
         </div>
       </div>
     );
