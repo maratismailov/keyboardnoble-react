@@ -263,12 +263,12 @@ class Boyarin extends Component {
 
   render() {
 
-    let keyboardImagePath = require('../assets/ru_keyboard.png')
+    let keyboardImagePath = require('../assets/ru_keyboard.svg')
     if (this.props.language === 'ru') {
-      keyboardImagePath = require('../assets/ru_keyboard.png')
+      keyboardImagePath = require('../assets/ru_keyboard.svg')
     }
     else {
-      keyboardImagePath = require('../assets/eng_keyboard.png')
+      keyboardImagePath = require('../assets/eng_keyboard.svg')
     }
     let isError = "App";
     if (this.props.isError == null) {
@@ -353,13 +353,13 @@ class Boyarin extends Component {
         <div className="App">
           <div>{this.props.error}</div>
         </div>
-        <div className='App'>
+        <div className='Keyboard'>
           {/* <p>something</p>
           <p>{this.props.githubId}</p>
           <p>currentValue {this.props.currentValue}</p>
           <p>correctValue {this.props.correctValue}</p> */}
           {/* <p>language {this.props.language}</p> */}
-          <img src={keyboardImagePath} width='100%' />
+          <img src={keyboardImagePath} width='80%' align="center"/>
         </div>
       </div>
     );
