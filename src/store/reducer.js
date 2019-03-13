@@ -34,7 +34,22 @@ const reducer = (state = initialState, action) => {
         name: action.name,
         menuIsOpen: false,
         dictType: action.dictType,
-        language: action.language
+        language: action.language,
+        isKeyboard: false
+      }
+
+    case 'SHOW_KEYBOARD':
+      if (state.isKeyboard !== true) {
+        return {
+          ...state,
+          isKeyboard: true
+        }
+      }
+      else {
+        return {
+          ...state,
+          isKeyboard: false
+        }
       }
 
     case 'LOAD_TEXT':
@@ -44,7 +59,7 @@ const reducer = (state = initialState, action) => {
         textLoaded: true
       }
 
-      case 'LOAD_AXIOS':
+    case 'LOAD_AXIOS':
       return {
         ...state,
         result: action.result

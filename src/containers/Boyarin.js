@@ -54,6 +54,11 @@ class Boyarin extends Component {
     // }
   }
 
+
+  showKeyboard = () => {
+    this.props.showKeyboard();
+  }
+
   handleSelect = event => {
     const language = event.target.dataset.language
     const file = event.target.dataset.file
@@ -263,6 +268,15 @@ class Boyarin extends Component {
 
   render() {
 
+    if (this.props.isKeyboard === true) {
+      var isKeyboard = 'Keyboard';
+      var showKeyboard = 'Hide keyboard'
+    }
+    else {
+      var isKeyboard = 'Hidden';
+      var showKeyboard = 'Show keyboard'
+    }
+
     let keyboardImagePath = require('../assets/ru_keyboard.svg')
     if (this.props.language === 'ru') {
       keyboardImagePath = require('../assets/ru_keyboard.svg')
@@ -292,17 +306,17 @@ class Boyarin extends Component {
 
     return (
       <div>
-      <div className='App'>
-        <div className="Menu">
-          <DictSelectMenu
-            className="rc-menu"
-            placeholder={this.props.name}
-            handleSelect={this.handleSelect}
-          // value={this.props.value}
-          />
-        </div>
-        <div>
-          {/* <div>
+        <div className='App'>
+          <div className="Menu">
+            <DictSelectMenu
+              className="rc-menu"
+              placeholder={this.props.name}
+              handleSelect={this.handleSelect}
+            // value={this.props.value}
+            />
+          </div>
+          <div>
+            {/* <div>
 	    correctValue: {this.state.correctValue}
 	  </div>
 	  <div>
@@ -314,35 +328,35 @@ class Boyarin extends Component {
 	  <div>
 	    inputValue2: {this.state.inputValue2}
 	  </div> */}
-        </div>
-        <div>
-          <span className="GoodValue">{goodValue}</span>
-          <span className="BadValue">{badValue}</span>
-          <span className="FullValue">{fullValue}</span>
-        </div>
-        {/* <div className='App'>
+          </div>
+          <div>
+            <span className="GoodValue">{goodValue}</span>
+            <span className="BadValue">{badValue}</span>
+            <span className="FullValue">{fullValue}</span>
+          </div>
+          {/* <div className='App'>
 	  <ShowTask task={this.props.dictionary} />
 	</div> */}
-        {/* <div className='App2'>
+          {/* <div className='App2'>
 	  {this.props.inputValue}
 	</div> */}
-        <div>
-          <input className='Input'
-            onKeyUp={event => {
-              this.taskRefreshHandler(event);
-            }}
-            onChange={event => {
-              this.textCheckHandler(event);
-            }}
-            ref={(input) => { this.nameInput = input; }}
-            value={this.props.currentValue}
-            className={isError}
-          />
-        </div>
-        <div>
-          {/* {this.props.currentValue} */}
-        </div>
-        {/* <TextInput
+          <div>
+            <input className='Input'
+              onKeyUp={event => {
+                this.taskRefreshHandler(event);
+              }}
+              onChange={event => {
+                this.textCheckHandler(event);
+              }}
+              ref={(input) => { this.nameInput = input; }}
+              value={this.props.currentValue}
+              className={isError}
+            />
+          </div>
+          <div>
+            {/* {this.props.currentValue} */}
+          </div>
+          {/* <TextInput
 	  // className='App'
 	  isError={this.props.isError}
 	  changed={(event) => {
@@ -351,18 +365,23 @@ class Boyarin extends Component {
 	  value={this.props.inputValue}
 	  // ref={elem => this.textFocus = elem}
 	/> */}
-        <div>
-          <div>{this.props.error}</div>
+          <div>
+            <div>{this.props.error}</div>
+          </div>
+
         </div>
-       
-      </div>
-      <div className='Keyboard'>
+        <div>
+          <button type="button" onClick={() => this.showKeyboard()}>
+            {showKeyboard}
+          </button>
+        </div>
+        <div className={isKeyboard}>
           {/* <p>something</p>
           <p>{this.props.githubId}</p>
           <p>currentValue {this.props.currentValue}</p>
           <p>correctValue {this.props.correctValue}</p> */}
           {/* <p>language {this.props.language}</p> */}
-          <img src={keyboardImagePath} width='100%' align="center"/>
+          <img src={keyboardImagePath} width='100%' align="center" />
         </div>
       </div>
     );
@@ -383,7 +402,8 @@ const MapStateToProps = state => {
     currentValue: state.currentValue,
     dictType: state.dictType,
     githubId: state.result,
-    language: state.language
+    language: state.language,
+    isKeyboard: state.isKeyboard
   };
 };
 
@@ -403,7 +423,8 @@ const MapDispatchToProps = dispatch => {
     newTask: () => dispatch({ type: "NEW_TASK" }),
     loadCorrectValue: toCheckValue =>
       dispatch({ type: "CORRECT_VALUE", inputValue: toCheckValue }),
-    clearCorrectValue: () => dispatch({ type: "CLEAR_CORRECT_VALUE" })
+    clearCorrectValue: () => dispatch({ type: "CLEAR_CORRECT_VALUE" }),
+    showKeyboard: () => dispatch({ type: "SHOW_KEYBOARD" })
   };
 };
 

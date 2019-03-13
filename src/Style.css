@@ -8,7 +8,11 @@ body {
   width: auto;
   font-family: 'Helvetica', 'Arial';
   font-size: x-large;
-	}
+  }
+  
+.Hidden {
+  display: none
+}
 
 .App {
   text-align: left;
