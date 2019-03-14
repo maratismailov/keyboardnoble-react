@@ -10,6 +10,10 @@ body {
   font-size: x-large;
   }
   
+.Button {
+  background: url(./assets/hide_keyboard.svg)
+}
+
 .Hidden {
   display: none
 }

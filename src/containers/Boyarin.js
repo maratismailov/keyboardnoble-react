@@ -270,11 +270,13 @@ class Boyarin extends Component {
 
     if (this.props.isKeyboard === true) {
       var isKeyboard = 'Keyboard';
-      var showKeyboard = 'Hide keyboard'
+      var showKeyboard = 'Hide keyboard';
+      var keyboardButton = require('../assets/hide_keyboard.svg');
     }
     else {
       var isKeyboard = 'Hidden';
-      var showKeyboard = 'Show keyboard'
+      var showKeyboard = 'Show keyboard';
+      var keyboardButton = require('../assets/show_keyboard.svg');
     }
 
     let keyboardImagePath = require('../assets/ru_keyboard.svg')
@@ -370,10 +372,13 @@ class Boyarin extends Component {
           </div>
 
         </div>
-        <div>
+        <div img src={keyboardButton} >
           <button type="button" onClick={() => this.showKeyboard()}>
             {showKeyboard}
           </button>
+          {/* <input type="image" src={keyboardButton} onClick={() => this.showKeyboard()}>
+            {showKeyboard}
+          </input> */}
         </div>
         <div className={isKeyboard}>
           {/* <p>something</p>
