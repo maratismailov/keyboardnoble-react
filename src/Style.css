@@ -1,4 +1,5 @@
 body {
+  /* margin-top: 5%; */
 	background: #212121;
 	font-size:15px;
 	line-height: 32px;
@@ -33,6 +34,8 @@ body {
 }
 
 .App {
+  /* position: relative; */
+  display: block;
   text-align: left;
   /* background: #252c35; */
   color: #98c359;
@@ -42,7 +45,7 @@ body {
   /* margin-right: 15.5%; */
   width: 50%;
   /* margin: 0 auto; */
-  margin-top: 1%;
+  /* margin-top: 5%; */
   margin-bottom: 0px;
 }
 
@@ -54,6 +57,30 @@ body {
   margin-top: 3%;
   width: 70%;
 }
+
+.Content {
+  display: block;
+  margin-top: 5%;
+}
+
+.Menu {
+    /* position: absolute; */
+    display: block;
+    text-align: left;
+    background: #252c35;
+    color: #98c359;
+    font-size: 50%;
+    /* margin: 15%; */
+    margin-top: 1%;
+    margin-left: 25%;
+    /* margin-right: 15.5%; */
+    width: 50%;
+    /* margin: 0 auto; */
+    /* margin-top: 1%; */
+    margin-bottom: 0px;
+  /* position: absolute; */
+}
+
 
 .Input {
   text-align: left;
@@ -125,13 +152,6 @@ body {
   /* margin: 0 auto; */
   margin-top: -57.5px;
   margin-bottom: 25px;
-}
-
-.Menu {
-  margin-top: 0px;
-  /* margin-left: 15%; */
-  /* width: 12%; */
-  
 }
 
 .Empty div {

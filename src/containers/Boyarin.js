@@ -3,7 +3,7 @@ import axios from "axios";
 import TextInput from "./TextInput";
 import ShowTask from "../components/ShowTask";
 import { connect } from "react-redux";
-import DictSelectMenu from "../assets/Menu";
+import DictSelectMenu from "../components/Menu";
 // import ru_keyboard from '../assets/ru_keyboard.png'
 
 import "../Style.css";
@@ -310,29 +310,15 @@ class Boyarin extends Component {
 
     return (
       <div>
+        <div className="Menu">
+          <DictSelectMenu
+            className="rc-menu"
+            placeholder={this.props.name}
+            handleSelect={this.handleSelect}
+          // value={this.props.value}
+          />
+        </div>
         <div className='App'>
-          <div className="Menu">
-            <DictSelectMenu
-              className="rc-menu"
-              placeholder={this.props.name}
-              handleSelect={this.handleSelect}
-            // value={this.props.value}
-            />
-          </div>
-          <div>
-            {/* <div>
-	    correctValue: {this.state.correctValue}
-	  </div>
-	  <div>
-	    correctValue2: {this.state.correctValue2}
-	  </div>
-	  <div>
-	    inputValue: {this.state.inputValue}
-	  </div>
-	  <div>
-	    inputValue2: {this.state.inputValue2}
-	  </div> */}
-          </div>
           <div>
             <span className="GoodValue">{goodValue}</span>
             <span className="BadValue">{badValue}</span>
@@ -375,7 +361,7 @@ class Boyarin extends Component {
 
         </div>
         <div  >
-          <button className = {showKeyboard} type="button" title={altKeyboard} onClick={() => this.showKeyboard()}>
+          <button className={showKeyboard} type="button" title={altKeyboard} onClick={() => this.showKeyboard()}>
             {/* {showKeyboard} */}
           </button>
           {/* <input type="image" src={keyboardButton} onClick={() => this.showKeyboard()}>
