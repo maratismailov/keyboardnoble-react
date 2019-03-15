@@ -10,8 +10,22 @@ body {
   font-size: x-large;
   }
   
-.Button {
-  background: url(./assets/hide_keyboard.svg)
+.Show-keyboard {
+  background: url(./assets/show_keyboard.svg);
+  background-size: cover;
+  margin-left: 75%;
+  width: 3%;
+  height: 3vw;
+  border: none;
+}
+
+.Hide-keyboard {
+  background: url(./assets/hide_keyboard.svg);
+  background-size: cover;
+  margin-left: 75%;
+  width: 3%;
+  height: 3vw;
+  border: none;
 }
 
 .Hidden {
