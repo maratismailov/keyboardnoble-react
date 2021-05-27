@@ -1,0 +1,16 @@
+.menu summary,
+a {
+	cursor: pointer;
+}
+
+.m-lvl-2 {
+	padding-left: 1rem;
+}
+
+.m-lvl-3 {
+	padding-left: 2rem;
+}
+
+.m-lvl-4 {
+	padding-left: 3rem;
+}
